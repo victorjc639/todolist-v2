@@ -14,7 +14,11 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
  
-mongoose.connect("mongodb+srv://victorjc639:Ishmael14@cluster0.ncl6dsh.mongodb.net/?retryWrites=true&w=majority/todolistDB");
+mongoose.connect("mongodb+srv://victorjc639:Ishmael14@cluster0.ncl6dsh.mongodb.net/?retryWrites=true&w=majority/todolistDB").then(
+  app.listen(process.env.PORT || 3000, function() {
+    console.log("Server started on port 3000");
+  })
+);;
  
  
 const itemsSchema = {
