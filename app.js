@@ -73,15 +73,36 @@ app.get("/", function(req, res) {
  
 app.post("/delete",function(req,res){
   const checkedItemId = req.body.checkbox;
-  Item.findByIdAndDelete(checkedItemId)
-  .then(function(){
-    console.log("deleted item");
-    })
-  .catch(function(err){
-    console.log(err);
-    });
-  res.redirect("/");
-})
+  const listName = req.body.listName;
+
+  if(listName === "Today"){
+    Item.findByIdAndDelete(checkedItemId)
+    .then(function(){
+      console.log("deleted item");
+      })
+    .catch(function(err){
+      console.log(err);
+      });
+    res.redirect("/");
+  }else{
+    List.findOne({ name: listName })
+  .then((foundList) => {
+    foundList.items.pull({ _id: checkedItemId });
+    return foundList.save();
+  })
+  .then(() => {
+    res.redirect("/" + listName);
+  })
+  .catch((err) => {
+    // Handle any errors that occurred during the process
+    // You can customize the error handling logic here
+    console.error(err);
+    // Optionally, you can redirect to an error page or send an error response
+    res.status(500).send("An error occurred");
+  });
+
+  };
+});
  
 app.post("/", function(req, res){
  
