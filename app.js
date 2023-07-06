@@ -14,7 +14,7 @@ app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(express.static("public"));
  
-mongoose.connect("mongodb://0.0.0.0:27017/todolistDB");
+mongoose.connect("mongodb+srv://victorjc639:Ishmael14@cluster0.ncl6dsh.mongodb.net/?retryWrites=true&w=majority/todolistDB");
  
  
 const itemsSchema = {
@@ -26,15 +26,15 @@ const Item = mongoose.model(
 );
  
 const item1 = new Item({
-  name:"work"
+  name:"Welcome to your todo list!"
 })
  
 const item2 = new Item({
-  name:"play"
+  name:"Hit the + button to add an item"
 })
  
 const item3 = new Item({
-  name:"gym"
+  name:"<--- Click on the checkbox to permanently delete an item"
 })
  
 const listSchema = {
@@ -97,10 +97,7 @@ app.post("/delete",function(req,res){
     res.redirect("/" + listName);
   })
   .catch((err) => {
-    // Handle any errors that occurred during the process
-    // You can customize the error handling logic here
     console.error(err);
-    // Optionally, you can redirect to an error page or send an error response
     res.status(500).send("An error occurred");
   });
 
